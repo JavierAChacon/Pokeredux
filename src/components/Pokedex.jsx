@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PokemonCard from './PokemonCard';
 import upperType from '../utils/upperType';
-import { current } from '@reduxjs/toolkit';
+
 
 const Pokedex = () => {
     
@@ -54,7 +54,7 @@ const Pokedex = () => {
 
     const [page, setPage] = useState(1)
     
-    const pokemonPerPage = 20
+    const pokemonPerPage = 18
     
     const last = page * pokemonPerPage
     
@@ -72,13 +72,14 @@ const Pokedex = () => {
 
     const prevPage = () => {
         setCurrentPage(currentPage - 1)
-        setLastPage(lastPage -1)
-
+        setLastPage(lastPage - 1)
+        setPage(page - 1)
     }
 
     const nextPage = () => {
         setCurrentPage(currentPage + 1)
         setLastPage(lastPage + 1)
+        setPage(page + 1)
     }
 
     for(let i = currentPage; i <= lastPage; i++){
@@ -90,18 +91,44 @@ const Pokedex = () => {
     return (
         
         <div className='pokedex'>
+           
            <h1>Pokedex</h1>
-           <p>Bienvenido {name}</p>
-           <form>
-            <input 
-            type="text" 
-            placeholder='Search by name or id'
-            value = {nameInput}
-            onChange= {e => setNameInput(e.target.value)}/>
-            <button onClick={searchName}>Search</button>
+           
+           <p>Welcome {name}</p>
+           
+           <form className='searchBar'>
+                <div className='bar'>
+                    <input 
+                    type="text" 
+                    placeholder='Search by name or id'
+                    value = {nameInput}
+                    onChange= {e => setNameInput(e.target.value)}/>
+
+                    <button onClick={searchName}>Search</button>
+                </div>
+                
+                <div className='types'>
+                    <select onChange= {e => searchTypes(e.target.value)}>
+                    <option value="">Type</option>
+                    {typesList.map(type => (
+                        <option value= {type.url} key={type.url}>{upperType(type.name)}</option>
+                    ))}
+                    </select>
+                </div>
             </form>
 
-            <div>
+            <div className='cards'>
+            {
+                pokedexPaginated.map(pokemon => (
+                    <PokemonCard url ={pokemon.url ? pokemon.url : pokemon.pokemon.url} 
+                    key={pokemon.url ? pokemon.url : pokemon.pokemon.url}
+                    className = 'cards'
+                    />
+                ))
+            }
+            </div>
+
+            <div className='navButtons'>
                 <button onClick={() => prevPage()} disabled={currentPage === 1}>Prev Page</button>
                 
                 {
@@ -111,27 +138,8 @@ const Pokedex = () => {
                 }
 
                 <button onClick={() => nextPage()} disabled= {currentPage === totalPages}>Next page</button>
+            </div>
             
-            </div>
-
-
-            <div>
-                <select onChange= {e => searchTypes(e.target.value)}>
-                    <option value="">Type</option>
-                    {typesList.map(type => (
-                        <option value= {type.url} key={type.url}>{upperType(type.name)}</option>
-                    ))}
-                </select>
-            </div>
-
-           {
-            pokedexPaginated.map(pokemon => (
-                <PokemonCard url ={pokemon.url ? pokemon.url : pokemon.pokemon.url} 
-                key={pokemon.url ? pokemon.url : pokemon.pokemon.url} 
-                />
-                
-            ))
-           }
         </div>
     );
 };

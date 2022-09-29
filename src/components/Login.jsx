@@ -3,6 +3,8 @@ import { changeName } from '../store/slices/userName.slice';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../index.css'
+import '../App.css'
 
 const Login = () => {
     
@@ -19,13 +21,18 @@ const Login = () => {
 
     return (
         <div className='login'>
-            <h1>UserInput</h1>
-            <input 
-                type="text"
-                value = {userName}
-                onChange = {e => setUserName(e.target.value)}
-            />
-            <button onClick={dispatchUserName}>Send</button>
+            
+            <h1>What is your name:</h1>
+            
+            <form className='input'>
+                <input 
+                    type="text"
+                    value = {userName}
+                    onChange = {e => setUserName(e.target.value)}
+                />
+                <button onClick={dispatchUserName}>Send</button>
+            </form>
+            
         </div>
     );
 };

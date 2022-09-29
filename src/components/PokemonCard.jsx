@@ -13,11 +13,17 @@ const PokemonCard = ({url}) => {
         .then(res => setDetails(res.data))
     })
 
+    const pokename = details.name
    
     return (
         <div className='card' onClick={() => navigate(`/pokedex/${details.id}`)}>
-            <h2 className='name'>{details.name}</h2>
+            
+            <h2 className='name'>{pokename?.[0].toUpperCase()}{pokename?.slice(1)}</h2>
+            <div className='pokefoto'>
+
             <img src={details.sprites?.other['official-artwork']?.front_default} alt="" className='image'/>
+
+            </div>
         </div>
     );
 };
