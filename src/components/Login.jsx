@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../index.css'
-import '../App.css'
+import '../styles/login.css'
 
 const Login = () => {
     
@@ -22,17 +22,22 @@ const Login = () => {
     return (
         <div className='login'>
             
-            <h1>What is your name:</h1>
-            
-            <form className='input'>
-                <input 
-                    type="text"
-                    value = {userName}
-                    onChange = {e => setUserName(e.target.value)}
-                />
-                <button onClick={dispatchUserName}>Send</button>
-            </form>
-            
+            <div className='professor'>
+                <img src="./assets/images/profesor.webp" alt="professor oak" />
+            </div>
+
+            <div  className='name'>
+                <h1>What is your name:</h1>
+                
+                <form className='input'>
+                    <input 
+                        type="text"
+                        value = {userName}
+                        onChange = {e => setUserName(e.target.value)}
+                    />
+                    <button onClick={dispatchUserName}>Send</button>
+                </form>
+            </div>
         </div>
     );
 };
